@@ -22,4 +22,9 @@ router.post("/addstudent",async(req,res)=>{
     })
 })
 
+router.get("/viewstudent",async(req,res)=>{
+    let data=await studentModel.find()
+    res.json(data)
+})
+
 module.exports=router
