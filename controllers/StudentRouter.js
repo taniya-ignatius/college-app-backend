@@ -27,4 +27,29 @@ router.get("/viewstudent",async(req,res)=>{
     res.json(data)
 })
 
+router.post("/login",async(req,res)=>{
+    let input=req.body
+    let email=req.body.email
+    let data=await studentModel.findOne({"email":email})
+    if(!data)
+    {
+        return res.json({
+            status:"Invalid user"
+        })
+    }
+    console.log(data)
+    let dbpassword=data.password
+    let inputpassword=req.body.password
+    console.log(dbpassword)
+    console.log(inputpassword)
+    const match=await bcrypt.compare(inputpassword,dbpassword)
+    if(!match){
+        return res.json({
+            status:"Incorrect password"
+        })
+    }
+    res.json({
+        status:"success","userData":data
+    })
+})
 module.exports=router
